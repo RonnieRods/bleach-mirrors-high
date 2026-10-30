@@ -1,6 +1,7 @@
 import React from "react";
 import characterData from '../data/characters.json';
 import type { Character } from "../types/game";
+import { getRarityStyles, getRarityLabel, getElementStyles } from "../utils/styleHelpers";
 
 const characters = characterData as Character[];
 
@@ -10,6 +11,7 @@ interface CharacterDetailProps {
 }
 
 export const CharacterDetail: React.FC<CharacterDetailProps> = ({ characterId, onBack }) => {
+    // Safe type-casting lookup matching the running schema engine
     const character = characters.find(c => c.id === characterId);
 
     if (!character) {
@@ -31,25 +33,35 @@ export const CharacterDetail: React.FC<CharacterDetailProps> = ({ characterId, o
                 <span className="text-[10px] font-mono text-slate-500 tracking-wider">// RECORD_ID: {character.id.toUpperCase()}</span>
             </div>
 
-            {/* Main Profile Header Card */}
+            {/* Main Profile Core Information Card */}
             <div className="p-6 bg-gameVoid/90 border border-slate-800 rounded-xl grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
-                <div className="w-28 h-28 bg-gameSlate border-2 border-slate-700 rounded-xl overflow-hidden shadow-xl mx-auto md:mx-0">
-                    <img src={character.avatarUrl} alt={character.name} className="w-full h-full object-cover" />
+                {/* Core Profile Avatar Container Frame */}
+                <div className="w-28 h-28 bg-gameSlate border-2 border-slate-700/80 rounded-xl overflow-hidden shadow-xl mx-auto md:mx-0 relative group">
+                {/* Subtle overlay accent gradient for 4-star tier headers */}
+                {character.rarity === 4 && (
+                    <div className="absolute inset-0 border border-transparent bg-gradient-to-r from-red-500/20 via-purple-500/20 to-blue-500/20 mix-blend-overlay pointer-events-none" />
+                )}
+                <img src={character.avatarUrl} alt={character.name} className="w-full h-full object-cover" />
                 </div>
+
+                {/* Identity & Attribute Badge Alignment Rows */}
                 <div className="md:col-span-3 space-y-2 text-center md:text-left">
-                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                        <span className={`px-2 py-0.5 text-xs font-mono border rounded ${
-                            character.rarity === 'SSR' ? 'border-gameOrange text-gameOrange bg-gameOrange/10' : 'border-gameCyan text-gameCyan bg-gameCyan/10'
-                        }`}>
-                            {character.rarity}
-                        </span>
-                        <span className="text-xs font-mono text-slate-400 uppercase tracking-widest bg-gameSlate px-2 py-0.5 rounded border border-slate-800">
-                            {character.element} ATTRIBUTE
-                        </span>
-                    </div>
-                    <h2 className="text-2xl font-black text-white tracking-wide">{character.name}</h2>
-                    <p className="text-sm text-gameCyan font-mono italic">{character.title}</p>
-                    <p className="text-xs text-slate-400">Designed Combat Core Position: <span className="text-slate-200 font-bold uppercase">{character.role}</span></p>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                    {/* Dynamic Star Multiplier Badges */}
+                    <span className={`px-2 py-0.5 text-xs font-mono border rounded ${getRarityStyles(character.rarity)}`}>
+                    {getRarityLabel(character.rarity)}
+                    </span>
+                    {/* Expanded 8-Channel Element Vector Tags */}
+                    <span className={`text-[10px] font-mono px-2.5 py-0.5 border rounded tracking-wider uppercase font-bold ${getElementStyles(character.element)}`}>
+                    {character.element} NODE
+                    </span>
+                </div>
+                
+                <h2 className="text-2xl font-black text-white tracking-wide">{character.name}</h2>
+                <p className="text-sm text-gameCyan font-mono italic">"{character.title}"</p>
+                <p className="text-xs text-slate-400">
+                    Tactical Roster Deployment Core: <span className="text-slate-200 font-bold uppercase">{character.role}</span>
+                </p>
                 </div>
             </div>
 

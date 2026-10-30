@@ -3,8 +3,8 @@
         "id": "ichigo-bankai",
         "name": "Ichigo Kurosaki (Bankai)",
         "title": "Unwavering Resolve",
-        "rarity": "SSR",
-        "element": "Power",
+        "rarity": 4,
+        "element": "Red",
         "role": "Main DPS",
         "avatarUrl": "https://placeholder.com",
         "artsDeck": [
@@ -33,8 +33,8 @@
         "id": "rukia-shikai",
         "name": "Rukia Kuchiki (Sode no Shirayuki)",
         "title": "Dance of the White Snow",
-        "rarity": "SSR",
-        "element": "Control",
+        "rarity": 3,
+        "element": "Blue",
         "role": "Sub-DPS / Enabler",
         "avatarUrl": "https://placeholder.com",
         "artsDeck": [
@@ -63,8 +63,8 @@
         "id": "orihime-os",
         "name": "Orihime Inoue (Over-Soul)",
         "title": "Shield of the Heavens",
-        "rarity": "SR",
-        "element": "Support",
+        "rarity": 1,
+        "element": "Cyan",
         "role": "Pure Buffer / Healer",
         "avatarUrl": "https://placeholder.com",
         "artsDeck": [
@@ -93,8 +93,8 @@
         "id": "byakuya-sr",
         "name": "Byakuya Kuchiki (Senbonzakura)",
         "title": "Pride of the Noble House",
-        "rarity": "SSR",
-        "element": "Speed",
+        "rarity": 2,
+        "element": "Cyan",
         "role": "AOE Shield-Breaker",
         "avatarUrl": "https://placeholder.com",
         "artsDeck": [

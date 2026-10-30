@@ -1,6 +1,6 @@
 export type CardType = 'Attack' | 'Tech' | 'Support';
-export type GameRarity = 'SSR' | 'SR' | 'R';
-export type GameElement = 'Power' | 'Control' | 'Speed' | 'Spirit';
+export type GameRarity = 1 | 2 | 3 | 4;
+export type GameElement = 'Red' | 'Orange' | 'Yellow' | 'Green' | 'Cyan' | 'Blue' | 'Violet' | 'Gray';
 
 
 export interface ArtsCard {

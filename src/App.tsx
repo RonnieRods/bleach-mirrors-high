@@ -1,17 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AppLayout } from "./components/AppLayout"
 import { CharacterGrid } from "./components/CharacterGrid"
 import { TeamSandbox } from './components/TeamSandbox';
 import { GachaTracker } from './components/GachaTracker';
 import { CharacterDetail } from './components/CharacterDetail';
 import type { Character } from './types/game';
+import characterData from './data/characters.json';
 
+const characters = characterData as Character[];
 type ActivePage = 'sandbox' | 'roster' | 'details';
+
+// Define a safe cache key name for local storage lookup
+const SQUAD_CACHE_KEY = 'mirrors_high_sandbox_squad';
 
 function App() {
   const [currentView, setCurrentView] = useState<ActivePage>('sandbox');
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
-  const [selectedTeam, setSelectedTeam] = useState<Character[]>([]);
+
+  // Read from localStorage on mount to reconstruct the team
+  const [selectedTeam, setSelectedTeam] = useState<Character[]>(() => {
+    try {
+      const cachedIdsJson = localStorage.getItem(SQUAD_CACHE_KEY);
+      if (cachedIdsJson) {
+        const cachedIds: string[] = JSON.parse(cachedIdsJson);
+        // Map cached IDs back to full static character references from the data registry
+        return cachedIds
+          .map(id => characters.find(char => char.id === id))
+          .filter((char): char is Character => !!char); // Filter out any undefined mismatches
+      }
+    } catch (error) {
+      console.error("// ERROR: LOCAL_STORAGE_CACHE_READ_FAILURE", error);
+    }
+    return []; // Fallback to empty squad array if no cache exists
+  });
+
+  // Watch selectedTeam array and update cache on any alteration
+  useEffect(() => {
+    try {
+      const idsToCache = selectedTeam.map(char => char.id);
+      localStorage.setItem(SQUAD_CACHE_KEY, JSON.stringify(idsToCache));
+    } catch (error) {
+      console.error("// ERROR: LOCAL_STORAGE_CACHE_WRITE_FAILURE", error);
+    }
+  }, [selectedTeam]);
 
   // State mutator functions
   const handleAddCharacter = (character: Character) => {

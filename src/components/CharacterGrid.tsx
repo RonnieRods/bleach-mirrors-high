@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import characterData from '../data/characters.json';
 import type { Character, GameRarity, GameElement } from '../types/game';
+import { getRarityStyles, getRarityLabel, getElementStyles } from '../utils/styleHelpers';
 
 // Explicitly cast the raw JSON import to our clean TypeScript definition
 const characters = characterData as Character[];
@@ -32,15 +33,6 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
         return matchesSearch && matchesRarity && matchesElement;
     });
 
-    // Dynamic border styles matching character rarities
-    const getRarityStyles = (rarity: GameRarity) => {
-        switch (rarity) {
-            case 'SSR': return 'border-gameOrange text-gameOrange bg-gameOrange/10 shadow-[0_0_15px_rgba(255,107,0,0.15)]';
-            case 'SR': return 'border-gameCyan text-gameCyan bg-gameCyan/10 shadow-[0_0_15px_rgba(0,240,255,0.15)]';
-            default: return 'border-slate-500 text-slate-400 bg-slate-500/10';
-        }
-    };
-
     return (
         <div className="space-y-6">
             {/* Filtering Control Panel Grid */}
@@ -62,17 +54,15 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
                 <div className="flex flex-col gap-1.5">
                     <label htmlFor="" className="text-xs font-mono text-slate-400 tracking-wider">// RARITY_FILTER</label>
                     <div className="grid grid-cols-3 gap-1 bg-gameSlate p-1 border border-slate-700/60 rounded">
-                        {(['ALL', 'SSR', 'SR'] as const).map((rarity) => (
+                        {(['ALL', 4, 3, 2, 1] as const).map((rarity) => (
                             <button
                                 key={rarity}
                                 onClick={() => setSelectedRarity(rarity)}
-                                className={`py-1 text-xs font-mono rounded tracking-wider transition-all ${
-                                    selectedRarity === rarity
-                                        ? rarity === 'SSR' ? 'bg-gameOrange text-gameVoid font-bold' : rarity === 'SR' ? 'bg-gameCyan text-gameVoid font-bold' : 'bg-slate-200 text-gameVoid font-bold'
-                                        : 'text-slate-400 hover:text-slate-200 hover:bg-gameVoid/40'
+                                className={`py-1 text-xs font-mono rounded transition-all ${
+                                    selectedRarity === rarity ? 'bg-slate-200 text-gameVoid font-bold' : 'text-slate-400'
                                 }`}
                             >
-                                {rarity}
+                                {rarity === 'ALL' ? 'ALL' : `${rarity}★`}
                             </button>
                         ))}
                     </div>
@@ -122,9 +112,9 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
                                 <div className="space-y-0.5 min-w-0">
                                     <div className="flex items-center gap-1.5">
                                         <span className={`text-[10px] px-1.5 font-mono border rounded ${getRarityStyles(char.rarity)}`}>
-                                            {char.rarity}
+                                            {getRarityLabel(char.rarity)}
                                         </span>
-                                        <span className={`text-[10px] px-1.5 font-mono text-slate-400 tracking-wider uppercase`}>
+                                        <span className={`text-[10px] px-1.5 font-mono tracking-wider uppercase ${getElementStyles(char.element)}`}>
                                             {char.element}
                                         </span>
                                     </div>
