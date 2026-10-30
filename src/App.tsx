@@ -1,122 +1,119 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { AppLayout } from "./components/AppLayout"
+import { CharacterGrid } from "./components/CharacterGrid"
+import { TeamSandbox } from './components/TeamSandbox';
+import { GachaTracker } from './components/GachaTracker';
+import { CharacterDetail } from './components/CharacterDetail';
+import type { Character } from './types/game';
+
+type ActivePage = 'sandbox' | 'roster' | 'details';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentView, setCurrentView] = useState<ActivePage>('sandbox');
+  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<Character[]>([]);
+
+  // State mutator functions
+  const handleAddCharacter = (character: Character) => {
+    if (selectedTeam.some((c) => c.id === character.id)) return;
+    if (selectedTeam.length >= 3) return;
+    setSelectedTeam([...selectedTeam, character]);
+  };
+
+  const handleRemoveCharacter = (id: string) => {
+    setSelectedTeam(selectedTeam.filter((c) => c.id !== id));
+  };
+
+  const handleNavigateToDetails = (id: string) => {
+    setSelectedCharacterId(id);
+    setCurrentView('details');
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <AppLayout>
+      {/* GLOBAL SYSTEM TAB SELECTION HEADER */}
+      <div className="flex gap-4 border-b border-slate-800 pb-3 mb-6">
+        <button 
+          onClick={() => setCurrentView('sandbox')}
+          className={`text-xs font-mono tracking-widest transition-all px-3 py-1 rounded ${
+            currentView === 'sandbox' ? 'bg-gameOrange text-gameVoid font-bold' : 'text-slate-400 hover:text-slate-200'
+          }`}
         >
-          Count is {count}
+          // SIMULATOR_SANDBOX
         </button>
-      </section>
+        <button
+          onClick={() => setCurrentView('roster')} 
+          className={`text-xs font-mono tracking-widest transition-all px-3 py-1 rounded ${
+            currentView === 'roster' ? 'bg-gameOrange text-gameVoid font-bold' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          // STANDALONE_ROSTER_INDEX
+        </button>
+      </div>
 
-      <div className="ticks"></div>
+      {/* TAB ROW A: Tactical Compositions */}
+      <div className="py-12 text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl text-white mb-4">
+          Unleash the <span className="text-gameCyan">Soul Drive</span>
+        </h1>
+        <p className="text-slate-400 max-w-xl mx-auto font-sans">
+          Welcome to your ultimate tactical database. Plan team compositions, look up beta-tested card interactions, and track your summon pity projections.
+        </p>
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {/* VIEW DECODER ENGINE */}
+      {currentView === 'sandbox' && (
+        <div className="space-y-12">
+          <div>
+            <div className="mb-4">
+              <h1 className="text-xl font-bold tracking-wider text-white font-mono uppercase">// SQUAD_LINK_SIMULATOR</h1>
+            </div>
+            <TeamSandbox selectedTeam={selectedTeam} onRemoveCharacter={handleRemoveCharacter} />
+          </div>
+
+          <div>
+            <div className="mb-4">
+              <p className="text-xs font-mono text-slate-400 tracking-wider">// DEPLOY_TEAM_UNITS_FROM_SANDBOX_CATALOG</p>
+            </div>
+            <CharacterGrid
+              onDeployCharacter={handleAddCharacter}
+              onViewDetails={handleNavigateToDetails}
+              isSandboxMode={true}
+            />
+          </div>
+
+          <div>
+            <div className="mb-4">
+              <h1 className="text-xl font-bold tracking-wider text-white font-mono uppercase">// RESERVE_PROJECTIONS</h1>
+            </div>
+            <GachaTracker />
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {currentView === 'roster' && (
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-2xl font-black text-white font-mono uppercase">CHARACTER_DATABANK_INDEX</h1>
+            <p className="text-xs text-slate-400 mt-1">Review static profiling and mechanics records independently from testing environments.</p>
+          </div>
+          <CharacterGrid
+            onViewDetails={handleNavigateToDetails}
+            isSandboxMode={false}
+          />
+        </div>
+      )}
+
+      {currentView === 'details' && selectedCharacterId && (
+        <CharacterDetail
+          characterId={selectedCharacterId}
+          onBack={() => setCurrentView(selectedCharacterId ? 'sandbox' : 'roster')} // Smart routing fallback
+          // Alternately, force back to roster catalog index directly:
+          // onBack={() => setCurrentView('roster')}
+        />
+      )}
+    </AppLayout>
   )
 }
 
-export default App
+export default App;

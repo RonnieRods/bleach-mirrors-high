@@ -1,0 +1,122 @@
+[
+    {
+        "id": "ichigo-bankai",
+        "name": "Ichigo Kurosaki (Bankai)",
+        "title": "Unwavering Resolve",
+        "rarity": "SSR",
+        "element": "Power",
+        "role": "Main DPS",
+        "avatarUrl": "https://placeholder.com",
+        "artsDeck": [
+            {
+                "id": "ichigo-a1",
+                "name": "Kuroi Getsuga",
+                "type": "Attack",
+                "cost": 1,
+                "description": "Deals heavy raw Power damage to a single target."
+            },
+            {
+                "id": "ichigo-a2",
+                "name": "Shunpo Strike",
+                "type": "Tech",
+                "cost": 2,
+                "description": "Advances positioning and increases critical hit rate by 15%."
+            }
+        ],
+        "soulDriveLinks": {
+            "triggersOn": ["rukia-shikai", "orihime-os"],
+            "comboFinisher": "Mugetsu Horizon",
+            "requiredArtsChain": ["Tech", "Support", "Attack"]
+        }
+    },
+    {
+        "id": "rukia-shikai",
+        "name": "Rukia Kuchiki (Sode no Shirayuki)",
+        "title": "Dance of the White Snow",
+        "rarity": "SSR",
+        "element": "Control",
+        "role": "Sub-DPS / Enabler",
+        "avatarUrl": "https://placeholder.com",
+        "artsDeck": [
+            {
+                "id": "rukia-a1",
+                "name": "Some no mai, Tsukishiro",
+                "type": "Tech",
+                "cost": 2,
+                "description": "Freezes the ground, inflicting 'Chilled' status on all enemies."
+            },
+            {
+                "id": "rukia-a2",
+                "name": "Tsugi no mai, Hakuren",
+                "type": "Attack",
+                "cost": 2,
+                "description": "Launches an ice avalanche. Deals 200% damage to frozen targets."
+            }
+        ],
+        "soulDriveLinks": {
+            "triggersOn": ["ichigo-bankai", "byakuya-ssr"],
+            "comboFinisher": "Absolute Zero Cascade",
+            "requiredArtsChain": ["Tech", "Tech", "Attack"]
+        }
+    },
+    {
+        "id": "orihime-os",
+        "name": "Orihime Inoue (Over-Soul)",
+        "title": "Shield of the Heavens",
+        "rarity": "SR",
+        "element": "Support",
+        "role": "Pure Buffer / Healer",
+        "avatarUrl": "https://placeholder.com",
+        "artsDeck": [
+            {
+                "id": "orihime-a1",
+                "name": "Santen Kesshun",
+                "type": "Support",
+                "cost": 1,
+                "description": "Deploys a barrier absorbing damage equal to 20% of max HP."
+            },
+            {
+                "id": "orihime-a2",
+                "name": "Soten Kisshun",
+                "type": "Support",
+                "cost": 3,
+                "description": "Heals the lowest health ally and dispels 1 debuff."
+            }
+        ],
+        "soulDriveLinks": {
+            "triggersOn": ["ichigo-bankai", "uryu-anthology"],
+            "comboFinisher": "Divine Rejection Burst",
+            "requiredArtsChain": ["Support", "Support", "Tech"]
+        }
+    },
+    {
+        "id": "byakuya-sr",
+        "name": "Byakuya Kuchiki (Senbonzakura)",
+        "title": "Pride of the Noble House",
+        "rarity": "SSR",
+        "element": "Speed",
+        "role": "AOE Shield-Breaker",
+        "avatarUrl": "https://placeholder.com",
+        "artsDeck": [
+            {
+                "id": "byakuya-a1",
+                "name": "Scatter, Senbonzakura",
+                "type": "Attack",
+                "cost": 2,
+                "description": "Shreds enemy shields across the entire field."
+            },
+            {
+                "id": "byakuya-a2",
+                "name": "Gotei Array",
+                "type": "Tech",
+                "cost": 3,
+                "description": "Traps enemies in a storm of blades, locking their active movements."
+            }
+        ],
+        "soulDriveLinks": {
+            "triggersOn": ["rukia-shikai"],
+            "comboFinisher": "Vibrant Cherry Blossom Requiem",
+            "requiredArtsChain": ["Attack", "Tech", "Tech"]
+        }
+    }
+]
